@@ -255,11 +255,11 @@
     <div class="main-content" id="mainContent">
         <div class="hearts" id="hearts"></div>
         <div class="slideshow" id="slideshow">
-            <img src="one.jpeg" class="slide active" alt="Photo 1">
-            <img src="two.jpg" class="slide" alt="Photo 2">
-            <img src="three.jpeg" class="slide" alt="Photo 3">
-            <img src="four.jpeg" class="slide" alt="Photo 4">
-            <img src="five.jpeg" class="slide" alt="Photo 5">
+            <img src="WhatsApp_Image_2026-02-14_at_3.34.17_AM.jpeg" class="slide active" alt="Memory 1">
+            <img src="WhatsApp_Image_2026-02-14_at_3.34.15_AM.jpeg" class="slide" alt="Memory 2">
+            <img src="WhatsApp_Image_2026-02-14_at_3.34.17_AM_(1).jpeg" class="slide" alt="Memory 3">
+            <img src="WhatsApp_Image_2026-02-14_at_3.34.18_AM_(1).jpeg" class="slide" alt="Memory 4">
+            <img src="WhatsApp_Image_2026-02-14_at_3.34.18_AM.jpeg" class="slide" alt="Memory 5">
         </div>
         <div class="letter-overlay" id="letterOverlay">
             <div class="letter" id="letter">
@@ -273,11 +273,11 @@
         <div class="final-message">Happy Valentine's Day ❤️</div>
     </div>
     <audio id="bgMusic" loop>
-        <source src="romantic-song.mp3" type="audio/mpeg">
+        <source src="backgroundmusicforvideos-romantics-love-valentines-day-481993.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
     <script>
-        const PASSWORD = "iloveyou"; // Easy to change password here
+        const PASSWORD = "TA2302"; // Easy to change password here
         const today = new Date();
         const isFeb14 = today.getMonth() === 1 && today.getDate() === 14; // Month is 0-indexed, 1 is February
 
@@ -287,11 +287,11 @@
         }
 
         const messages = [
-            "My Sweetheart, I still remember the first moment I saw you. Time seemed to stop, and suddenly everything made sense. Every heartbeat, every breath led me to you. That moment changed my entire world. You are my greatest adventure and my safest harbor. Eternally devoted ❤️",
-            "My Love, The time we spend together is my favorite part of every day. Whether we're laughing, exploring, or just sitting in comfortable silence, every moment with you is a treasure I hold close to my heart. You are my beginning, my middle, and my never-ending story. Thank you for choosing me. Forever yours ❤️",
-            "My Jaan, Your smile lights up my darkest days. Every kiss, every hug, every sweet moment with you reminds me that I'm the luckiest person alive. You make my heart flutter in ways I never thought possible. With you, I found my home, my peace, and my greatest love. All my love ❤️",
-            "My Beautiful Love, Life is an adventure when I'm with you. Every journey we take, every place we explore, and every dream we chase becomes magical because you're by my side. You inspire me to be braver, stronger, and more loving. Thank you for being my greatest adventure. Forever exploring with you ❤️",
-            "My Forever Love, I promise you my heart, my loyalty, and my endless love. Through every season, every challenge, and every beautiful moment, I will choose you. You are my forever, my always, and my everything. I love you more than words could ever express. Yours always and forever ❤️"
+            `<p>My Sweetheart,</p><p>I still remember the first moment I saw you. Time seemed to stop, and suddenly everything made sense. Every heartbeat, every breath led me to you. That moment changed my entire world.</p><p>You are my greatest adventure and my safest harbor.</p><div class="signature">Eternally devoted ❤️</div>`,
+            `<p>My Love,</p><p>The time we spend together is my favorite part of every day. Whether we're laughing, exploring, or just sitting in comfortable silence, every moment with you is a treasure I hold close to my heart.</p><p>You are my beginning, my middle, and my never-ending story. Thank you for choosing me.</p><div class="signature">Forever yours ❤️</div>`,
+            `<p>My Jaan,</p><p>Your smile lights up my darkest days. Every kiss, every hug, every sweet moment with you reminds me that I'm the luckiest person alive. You make my heart flutter in ways I never thought possible.</p><p>With you, I found my home, my peace, and my greatest love.</p><div class="signature">All my love ❤️</div>`,
+            `<p>My Beautiful Love,</p><p>Life is an adventure when I'm with you. Every journey we take, every place we explore, and every dream we chase becomes magical because you're by my side. You inspire me to be braver, stronger, and more loving.</p><p>Thank you for being my greatest adventure.</p><div class="signature">Forever exploring with you ❤️</div>`,
+            `<p>My Forever Love,</p><p>I promise you my heart, my loyalty, and my endless love. Through every season, every challenge, and every beautiful moment, I will choose you. You are my forever, my always, and my everything.</p><p>I love you more than words could ever express.</p><div class="signature">Yours always and forever ❤️</div>`
         ];
 
         let currentSlide = 0;
@@ -330,12 +330,12 @@
 
         function startMusic() {
             const music = document.getElementById('bgMusic');
-            music.volume = 30;
-            music.play();
-            let vol = 30;
+            music.volume = 0;
+            music.play().catch(err => console.log('Autoplay blocked, click to play.'));
+            let vol = 0;
             const fadeIn = setInterval(() => {
                 if (vol < 0.5) {
-                    vol += 1;
+                    vol += 0.01;
                     music.volume = vol;
                 } else {
                     clearInterval(fadeIn);
@@ -362,25 +362,18 @@
                 document.getElementById('letter').classList.add('show');
                 const text = messages[currentSlide];
                 const typedText = document.getElementById('typedText');
-                let index = 0;
-                function type() {
-                    if (index < text.length) {
-                        typedText.textContent += text.charAt(index);
-                        index++;
-                        setTimeout(type, 100);
-                    } else {
-                        typedText.classList.remove('typed-text');
-                        setTimeout(() => {
-                            createPetals();
-                            setTimeout(() => {
-                                closeLetter();
-                            }, 3000);
-                        }, 2000);
-                    }
-                }
+                typedText.innerHTML = text; // Insert HTML directly for formatting
+                // Simulate typing by adding class
                 typedText.className = 'typed-text';
-                typedText.textContent = '';
-                type();
+                setTimeout(() => {
+                    typedText.classList.remove('typed-text');
+                    setTimeout(() => {
+                        createPetals();
+                        setTimeout(() => {
+                            closeLetter();
+                        }, 3000);
+                    }, 2000);
+                }, 100 * text.length); // Approximate typing time
             }, 500);
         }
 
@@ -437,12 +430,4 @@
             for (let i = 0; i < 100; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.width = particle.style.height = Math.random() * 15 + 5 + 'px';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
-    </script>
-</body>
-</html>
+                particle.style.left = Math.random() *
