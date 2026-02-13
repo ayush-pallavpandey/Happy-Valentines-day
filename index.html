@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Surprise</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Times New Roman', serif;
+            background: radial-gradient(circle, #2c1810, #000);
+            overflow: hidden;
+            color: #d4af37;
+        }
+        .lock-screen, .password-screen, .intro-screen, .main-content {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 1);
+        }
+        .lock-screen {
+            display: flex;
+        }
+        .password-screen {
+            display: none;
+        }
+        .intro-screen {
+            display: none;
+            background: radial-gradient(circle, #2c1810, #000);
+            animation: fadeIn 2s ease-in-out;
+        }
+        .main-content {
+            display: none;
+            background: radial-gradient(circle, #2c1810, #000);
+            animation: zoomIn 3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes zoomIn {
+            0% { transform: scale(1.2); filter: blur(5px); }
+            100% { transform: scale(1); filter: blur(0); }
+        }
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, #d4af37, transparent);
+            border-radius: 50%;
+            animation: floatParticles 8s linear infinite;
+        }
+        @keyframes floatParticles {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+        .intro-text {
+            text-align: center;
+            opacity: 0;
+            animation: textReveal 2s ease-in-out forwards;
+        }
+        .intro-text.line1 {
+            font-size: 1.5rem;
+            animation-delay: 1s;
+        }
+        .intro-text.line2 {
+            font-size: 3rem;
+            color: #d4af37;
+            text-shadow: 0 0 20px #d4af37;
+            animation-delay: 3s;
+        }
+        .intro-text.line3 {
+            font-size: 2rem;
+            animation-delay: 5s;
+        }
+        @keyframes textReveal {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 2rem;
+            animation: float 6s linear infinite;
+            filter: drop-shadow(0 0 10px #d4af37);
+        }
+        .heart:nth-child(odd) {
+            animation-delay: -3s;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        .slideshow {
+            position: relative;
+            width: 80%;
+            max-width: 600px;
+            height: 400px;
+            margin: 20px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 30px #d4af37;
+            border: 5px solid #d4af37;
+        }
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            animation: kenBurns 8s ease-in-out infinite;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+        @keyframes kenBurns {
+            0% { transform: scale(1) translate(0, 0); filter: blur(0); }
+            50% { transform: scale(1.1) translate(10px, 10px); filter: blur(1px); }
+            100% { transform: scale(1) translate(0, 0); filter: blur(0); }
+        }
+        .mail-button {
+            width: 100px;
+            height: 80px;
+            background: #8b0000;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            cursor: pointer;
+            margin: 20px;
+            box-shadow: 0 0 20px #d4af37;
+            transition: transform 0.5s;
+        }
+        .mail-button::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 40px;
+            background: #f5f5dc;
+            border-radius: 5px;
+        }
+        .mail-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: #b22222;
+            border-radius: 0 0 10px 10px;
+        }
+        .letter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .letter {
+            width: 80%;
+            max-width: 500px;
+            background: #f5f5dc;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 30px #d4af37;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 1.2rem;
+            color: #8b0000;
+            text-align: center;
+            transform: scale(0) rotateY(180deg);
+            transition: transform 1s;
+            border: 2px solid #d4af37;
+        }
+        .letter.show {
+            transform: scale(1) rotateY(0deg);
+        }
+        .typed-text {
+            border-right: 2px solid #8b0000;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: #8b0000; }
+        }
+        .petals {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+        }
+        .petal {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 1.5rem;
+            animation: fallPetals 5s linear infinite;
+        }
+        @keyframes fallPetals {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        .final-message {
+            display: none;
+            text-align: center;
+            font-size: 3rem;
+            color: #d4af37;
+            text-shadow: 0 0 20px #d4af37;
+            animation: heartbeat 1s infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        button {
+            background: #8b0000;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #b22222;
+        }
+        @media (max-width: 600px) {
+            .slideshow {
+                width: 90%;
+                height: 300px;
+            }
+            .letter {
+                width: 90%;
+                font-size: 1rem;
+            }
+            .intro-text.line2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lock-screen" id="lockScreen">
+        <h1>This love surprise unlocks on February 14 ❤️</h1>
+    </div>
+    <div class="password-screen" id="passwordScreen">
+        <h2>Enter the password to unlock your surprise ❤️</h2>
+        <input type="password" id="passwordInput" placeholder="Password">
+        <button onclick="checkPassword()">Unlock</button>
+        <p id="errorMessage" style="color: red; display: none;">Wrong password, try again ❤️</p>
+    </div>
+    <div class="intro-screen" id="introScreen">
+        <div class="particles" id="particles"></div>
+        <div class="intro-text line1">A Love Story</div>
+        <div class="intro-text line2">Written In Destiny</div>
+        <div class="intro-text line3">Starring Us ❤️</div>
+    </div>
+    <div class="main-content" id="mainContent">
+        <div class="hearts" id="hearts"></div>
+        <div class="slideshow" id="slideshow">
+            <img src="placeholder1.jpg" class="slide active" alt="Photo 1">
+            <img src="placeholder2.jpg" class="slide" alt="Photo 2">
+            <img src="placeholder3.jpg" class="slide" alt="Photo 3">
+        </div>
+        <div class="mail-button" onclick="openLetter()"></div>
+        <div class="letter-overlay" id="letterOverlay">
+            <div class="letter" id="letter">
+                <div id="typedText"></div>
+            </div>
+        </div>
+        <div class="petals" id="petals"></div>
+        <div class="final-message" id="finalMessage">Happy Valentine's Day ❤️</div>
+        <audio id="bgMusic" loop>
+            <!-- Replace 'romantic-song.mp3' with your MP3 file -->
+            <source src="romantic-song.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    <script>
+        const PASSWORD = "iloveyou"; // Easy to change password here
+        const today = new Date();
+        const isFeb14 = today.getMonth() === 1 && today.getDate() === 14; // Month is 0-indexed, 1 is February
+
+        if (isFeb14) {
+            document.getElementById('lockScreen').style.display = 'none';
+            document.getElementById('passwordScreen').style.display = 'flex';
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            if (input === PASSWORD) {
+                document.getElementById('passwordScreen').style.display = 'none';
+                document.getElementById('introScreen').style.display = 'flex';
+                createParticles();
+                setTimeout(() => {
+                    document.getElementById('introScreen').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                    startMusic();
+                    startSlideshow();
+                    createHearts();
+                }, 8000);
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = Math.random() * 10 + 5 + 'px';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function startMusic() {
+            const music = document.getElementById('bgMusic');
+            music.volume = 0;
+            music.play();
+            let vol = 0;
+            const fadeIn = setInterval(() => {
+                if (vol < 0.5) {
+                    vol += 0.01;
+                    music.volume = vol;
+                } else {
+                    clearInterval(fadeIn);
+                }
+            }, 50);
+        }
+
+        function startSlideshow() {
+            const slides = document.querySelectorAll('.slide');
+            let current = 0;
+            setInterval(() => {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, 8000);
+        }
+
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        function openLetter() {
+            const overlay = document.getElementById('letterOverlay');
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('letter').classList.add('show');
+                const music = document.getElementById('bgMusic');
+                music.volume = 0.2;
+                const text = "My dearest love, on this Valentine's Day, I want to tell you how much you mean to me. Your smile lights up my world, and your love fills my heart with joy. Happy Valentine's Day! ❤️";
+                const typedText = document.getElementById('typedText');
+                let index = 0;
+                function type() {
+                    if (index < text.length) {
+                        typedText.textContent += text.charAt(index);
+                        index++;
+                        setTimeout(type, 100);
+                    } else {
+                        typedText.classList.remove('typed-text');
+                        setTimeout(() => {
+                            createPetals();
+                            document.body.style.transform = 'scale(0.9)';
+                            document.getElementById('hearts').style.filter = 'brightness(2)';
+                            document.getElementById('finalMessage').style.display = 'block';
+                        }, 2000);
+                    }
+                }
+                typedText.className = 'typed-text';
+                typedText.textContent = '';
+                type();
+            }, 500);
+        }
+
+        function createPetals() {
+            const petalsContainer = document.getElementById('petals');
+            petalsContainer.style.display = 'block';
+            for (let i = 0; i < 20; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.textContent = '🌹';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = Math.random() * 5 + 's';
+                petalsContainer.appendChild(petal);
+            }
+        }
+    </script>
+</body>
+</html>
