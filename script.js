@@ -16,6 +16,7 @@ function unlock() {
 
   } else {
     document.getElementById("error").innerText = "Wrong password ❤️";
+document.getElementById("error").style.color = "red";
   }
 }
 
