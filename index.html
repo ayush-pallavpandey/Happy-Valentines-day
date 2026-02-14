@@ -85,10 +85,10 @@ button{
   text-shadow:0 0 15px gold;
 }
 
-/* PETALS */
+/* PETALS (SIZE FIXED HERE ONLY) */
 .petal{
   position:fixed;
-  width:25px;
+  width:125px; /* 5X bigger than 25px */
   pointer-events:none;
   animation:fall linear forwards;
 }
@@ -191,7 +191,7 @@ function startPetals(){
 
     setTimeout(()=>{ petal.remove(); },10000);
 
-  },800); // slower to avoid mobile lag
+  },800);
 }
 
 </script>
