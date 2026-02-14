@@ -3,59 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Love ❤️</title>
+<title>Our Love Story ❤️</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Georgia, serif;
-  background: radial-gradient(circle, #2c1810, #000);
-  color: white;
+  background: black;
+  font-family: 'Georgia', serif;
   overflow: hidden;
+  color: gold;
 }
 
-.hidden { display: none; }
-
+/* Center Screens */
 .center-screen {
   height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   text-align: center;
 }
 
-.card {
-  background: white;
-  color: #d63447;
+/* Password Box */
+.password-box {
+  background: rgba(0,0,0,0.8);
   padding: 40px;
-  border-radius: 20px;
-  text-align: center;
+  border: 2px solid gold;
+  box-shadow: 0 0 40px gold;
 }
 
 input {
-  padding: 12px;
-  width: 100%;
+  padding: 10px;
   margin-top: 10px;
+  width: 200px;
 }
 
 button {
-  margin-top: 15px;
-  padding: 12px;
-  background: #d63447;
-  color: white;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background: gold;
   border: none;
   cursor: pointer;
 }
 
+/* Cinematic Intro */
+#introText {
+  font-size: 40px;
+  opacity: 0;
+  animation: fadeIn 4s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* Golden Spark Particles */
+.spark {
+  position: fixed;
+  width: 3px;
+  height: 3px;
+  background: gold;
+  border-radius: 50%;
+  animation: sparkle 4s linear infinite;
+}
+
+@keyframes sparkle {
+  0% { transform: translateY(100vh); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Rose Petals */
+.petal {
+  position: fixed;
+  font-size: 20px;
+  animation: fall 6s linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10vh) rotate(0deg); }
+  100% { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Slideshow */
 .slideshow {
-  position: relative;
-  width: 80%;
-  max-width: 800px;
-  height: 500px;
-  margin: 60px auto;
-  overflow: hidden;
-  border: 5px solid gold;
-  box-shadow: 0 0 40px gold;
+  position: absolute;
+  inset: 0;
 }
 
 .slide {
@@ -69,95 +102,121 @@ button {
 
 .slide.active { opacity: 1; }
 
-.fade-black { animation: fadeBlack 1s forwards; }
-
-@keyframes fadeBlack {
-  from { filter: brightness(1); }
-  to { filter: brightness(0); }
-}
-
-.letter-modal {
+/* Letter */
+.letter {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.9);
   display: none;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
-.letter-modal.show { display: flex; }
-
-.letter {
+.letter-content {
   background: #fef5e7;
   padding: 40px;
-  max-width: 600px;
-  font-family: 'Brush Script MT', cursive;
-  font-size: 26px;
+  font-family: cursive;
+  font-size: 24px;
   color: #5d4037;
   border: 3px solid gold;
-  animation: unfold 1s ease;
-  text-align: center;
-}
-
-@keyframes unfold {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
-}
-
-.final-message {
-  text-align: center;
-  font-size: 40px;
-  color: gold;
-  animation: heartbeat 1s infinite;
-}
-
-@keyframes heartbeat {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
 }
 </style>
 </head>
 <body>
 
-<div id="dateLock" class="center-screen hidden">
-  <h1>This love surprise unlocks on February 14 ❤️</h1>
-</div>
-
-<div id="passwordScreen" class="center-screen hidden">
-  <div class="card">
+<div id="passwordScreen" class="center-screen">
+  <div class="password-box">
     <h2>Enter The Secret Word ❤️</h2>
-    <input type="password" id="passwordInput" placeholder="Our special word...">
-    <button onclick="checkPassword()">Unlock My Heart</button>
-    <p id="errorMsg" style="color:red;"></p>
+    <input type="password" id="passwordInput">
+    <br>
+    <button onclick="checkPassword()">Unlock</button>
+    <p id="error" style="color:red;"></p>
   </div>
 </div>
 
-<div id="mainContent" class="hidden">
+<div id="intro" class="center-screen" style="display:none;">
+  <div id="introText">
+    A Love Story... <br>
+    Written In Destiny ❤️
+  </div>
+</div>
 
+<div id="main" style="display:none;">
   <div class="slideshow">
-    <img src="one.jpeg" class="slide active">
-    <img src="two.jpg" class="slide">
-    <img src="three.jpeg" class="slide">
-    <img src="four.jpeg" class="slide">
-    <img src="five.jpeg" class="slide">
+    <img src="ONE.jpeg" class="slide active">
+    <img src="TWO.jpg" class="slide">
+    <img src="THREE.jpeg" class="slide">
+    <img src="FOUR.jpeg" class="slide">
+    <img src="FIVE.jpeg" class="slide">
   </div>
-
-  <div id="letterModal" class="letter-modal">
-    <div class="letter" id="letterText"></div>
-  </div>
-
-  <div id="finalMessage" class="final-message hidden">
-    Happy Valentine's Day ❤️
-  </div>
-
-  <audio id="bgMusic" loop>
-    <source src="romantic-song.mp3" type="audio/mpeg">
-  </audio>
-
 </div>
+
+<div id="letter" class="letter">
+  <div class="letter-content" id="letterText"></div>
+</div>
+
+<audio id="music" loop>
+  <source src="romantic-song.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-const PASSWORD = "TA2302";
+// SHA256 HASHED PASSWORD ("TA2302")
+const HASHED_PASSWORD = "0eab3b71fcb3d34df66e4a79e927651c01fb9b31c7648206dfa81857232ece48";
+
+async function hash(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+async function checkPassword() {
+  const input = document.getElementById("passwordInput").value;
+  const hashedInput = await hash(input);
+
+  if (hashedInput === HASHED_PASSWORD) {
+    document.getElementById("passwordScreen").style.display = "none";
+    startIntro();
+  } else {
+    document.getElementById("error").innerText = "Wrong password ❤️";
+  }
+}
+
+function startIntro() {
+  document.getElementById("intro").style.display = "flex";
+  document.getElementById("music").play();
+
+  createSparks();
+
+  setTimeout(() => {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("main").style.display = "block";
+    startSlideshow();
+  }, 6000);
+}
+
+function createSparks() {
+  for (let i = 0; i < 100; i++) {
+    const spark = document.createElement("div");
+    spark.className = "spark";
+    spark.style.left = Math.random() * 100 + "%";
+    spark.style.animationDuration = (Math.random()*3+3)+"s";
+    document.body.appendChild(spark);
+  }
+}
+
+function createPetals() {
+  for (let i = 0; i < 20; i++) {
+    const petal = document.createElement("div");
+    petal.className = "petal";
+    petal.innerText = "🌹";
+    petal.style.left = Math.random() * 100 + "%";
+    petal.style.animationDuration = (Math.random()*4+4)+"s";
+    document.body.appendChild(petal);
+  }
+}
 
 const LETTERS = [
   "You walked into my life and everything became beautiful ❤️",
@@ -167,60 +226,29 @@ const LETTERS = [
   "No matter what life brings, I will always choose you ❤️"
 ];
 
-const today = new Date();
-if (today.getMonth() === 1 && today.getDate() === 14) {
-  document.getElementById("passwordScreen").classList.remove("hidden");
-} else {
-  document.getElementById("dateLock").classList.remove("hidden");
-}
-
-function checkPassword() {
-  const input = document.getElementById("passwordInput").value;
-  if (input === PASSWORD) {
-    document.getElementById("passwordScreen").classList.add("hidden");
-    document.getElementById("mainContent").classList.remove("hidden");
-    document.getElementById("bgMusic").play();
-    startSlideshow();
-  } else {
-    document.getElementById("errorMsg").innerText = "Wrong password ❤️";
-  }
-}
-
 function startSlideshow() {
   const slides = document.querySelectorAll(".slide");
   let current = 0;
 
-  const interval = setInterval(() => {
+  setInterval(() => {
     slides[current].classList.remove("active");
-    slides[current].classList.add("fade-black");
-
-    setTimeout(() => {
-      openLetter(current);
-
-      slides[current].classList.remove("fade-black");
-      current++;
-
-      if (current >= slides.length) {
-        clearInterval(interval);
-        document.getElementById("finalMessage").classList.remove("hidden");
-        return;
-      }
-
-      slides[current].classList.add("active");
-    }, 1000);
-
+    openLetter(current);
+    current = (current + 1) % slides.length;
+    slides[current].classList.add("active");
   }, 6000);
 }
 
 function openLetter(index) {
-  const modal = document.getElementById("letterModal");
+  const letter = document.getElementById("letter");
   const text = document.getElementById("letterText");
 
-  modal.classList.add("show");
+  letter.style.display = "flex";
   text.innerText = LETTERS[index];
 
+  createPetals();
+
   setTimeout(() => {
-    modal.classList.remove("show");
+    letter.style.display = "none";
   }, 4000);
 }
 </script>
