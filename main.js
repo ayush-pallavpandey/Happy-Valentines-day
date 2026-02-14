@@ -1,20 +1,6 @@
-const PASSWORD = "iloveyou"; // 🔐 Change password here
+const PASSWORD = "TA2302";
 
-const today = new Date();
-const isFeb14 = today.getMonth() === 1 && today.getDate() === 14;
-
-const lockScreen = document.getElementById("lockScreen");
-const passwordScreen = document.getElementById("passwordScreen");
-const introScreen = document.getElementById("introScreen");
-const mainContent = document.getElementById("mainContent");
-const letterOverlay = document.getElementById("letterOverlay");
-const letter = document.getElementById("letter");
-const typedText = document.getElementById("typedText");
-const finalScreen = document.getElementById("finalScreen");
-const slides = document.querySelectorAll(".slide");
-const music = document.getElementById("bgMusic");
-
-const messages = [
+const LETTERS = [
   "You walked into my life and everything became beautiful ❤️",
   "Every moment with you feels like magic ✨",
   "With you, love feels easy and forever feels real 💕",
@@ -22,92 +8,59 @@ const messages = [
   "No matter what life brings, I will always choose you ❤️"
 ];
 
-let currentSlide = 0;
-let interval;
+const dateLock = document.getElementById("dateLock");
+const passwordScreen = document.getElementById("passwordScreen");
+const mainContent = document.getElementById("mainContent");
+const unlockBtn = document.getElementById("unlockBtn");
+const errorMsg = document.getElementById("errorMsg");
+const bgMusic = document.getElementById("bgMusic");
 
-if (isFeb14) {
-  lockScreen.style.display = "none";
-  passwordScreen.style.display = "flex";
+const today = new Date();
+if (today.getMonth() === 1 && today.getDate() === 14) {
+  passwordScreen.classList.remove("hidden");
+} else {
+  dateLock.classList.remove("hidden");
 }
 
-document.getElementById("unlockBtn").addEventListener("click", () => {
+unlockBtn.onclick = () => {
   const input = document.getElementById("passwordInput").value;
-
   if (input === PASSWORD) {
-    passwordScreen.style.display = "none";
-    introScreen.style.display = "flex";
-
-    music.volume = 0;
-    music.play();
-    fadeInMusic();
-
-    setTimeout(() => {
-      introScreen.style.display = "none";
-      mainContent.style.display = "flex";
-      startSlideshow();
-    }, 5000);
-
+    passwordScreen.classList.add("hidden");
+    mainContent.classList.remove("hidden");
+    bgMusic.play();
+    startSlideshow();
   } else {
-    document.getElementById("errorMessage").style.display = "block";
+    errorMsg.innerText = "Wrong password ❤️";
   }
-});
-
-function fadeInMusic() {
-  let vol = 0;
-  const fade = setInterval(() => {
-    if (vol < 0.5) {
-      vol += 0.02;
-      music.volume = vol;
-    } else {
-      clearInterval(fade);
-    }
-  }, 200);
-}
+};
 
 function startSlideshow() {
-  interval = setInterval(() => {
-    slides[currentSlide].classList.add("fade-black");
-    setTimeout(openLetter, 2000);
+  const slides = document.querySelectorAll(".slide");
+  let current = 0;
+
+  setInterval(() => {
+    slides[current].classList.remove("active");
+    slides[current].classList.add("fade-black");
+
+    setTimeout(() => {
+      openLetter(current);
+      slides[current].classList.remove("fade-black");
+
+      current = (current + 1) % slides.length;
+      slides[current].classList.add("active");
+    }, 1000);
+
   }, 6000);
 }
 
-function openLetter() {
-  clearInterval(interval);
-  letterOverlay.style.display = "flex";
-  letter.classList.add("show");
-  music.volume = 0.2;
+function openLetter(index) {
+  const modal = document.getElementById("letterModal");
+  const text = document.getElementById("letterText");
 
-  let text = messages[currentSlide];
-  let i = 0;
-  typedText.innerHTML = "";
+  modal.classList.add("show");
+  text.innerText = LETTERS[index];
 
-  function type() {
-    if (i < text.length) {
-      typedText.innerHTML += text[i];
-      i++;
-      setTimeout(type, 60);
-    } else {
-      setTimeout(closeLetter, 3000);
-    }
-  }
-
-  type();
-}
-
-function closeLetter() {
-  letter.classList.remove("show");
-  letterOverlay.style.display = "none";
-  music.volume = 0.5;
-
-  slides[currentSlide].classList.remove("active", "fade-black");
-  currentSlide++;
-
-  if (currentSlide >= slides.length) {
-    mainContent.style.display = "none";
-    finalScreen.style.display = "flex";
-    return;
-  }
-
-  slides[currentSlide].classList.add("active");
-  startSlideshow();
+  setTimeout(() => {
+    modal.classList.remove("show");
+  }, 4000);
 }
