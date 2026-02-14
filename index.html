@@ -195,26 +195,38 @@ function showLetter(index){
 }
 
 /* BIG REAL PETALS */
-function createPetals(){
-  console.log("Petals triggered");
+function startPetalRain() {
 
-  for(let i=0;i<10;i++){
+  setInterval(() => {
 
-    const petal=document.createElement("img");
-    petal.src="./petal.png";   // safer path
-    petal.style.position="fixed";
-    petal.style.top="-100px";
-    petal.style.left=Math.random()*100+"vw";
-    petal.style.width="80px";   // fixed big size
-    petal.style.zIndex="9999";
-    petal.style.pointerEvents="none";
+    const petal = document.createElement("img");
 
-    petal.style.animation="fall 8s linear forwards";
+    petal.src = "petal.png";
+    petal.style.position = "fixed";
+    petal.style.top = "-120px";
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.width = (Math.random() * 40 + 40) + "px"; // 40–80px random size
+    petal.style.zIndex = "9999";
+    petal.style.pointerEvents = "none";
+
+    const duration = Math.random() * 5 + 6; // 6–11 sec
+    petal.style.transition = `transform ${duration}s linear`;
 
     document.body.appendChild(petal);
 
-    setTimeout(()=>{petal.remove();},8000);
-  }
+    // Random horizontal drift
+    const drift = (Math.random() - 0.5) * 200;
+
+    setTimeout(() => {
+      petal.style.transform =
+        `translate(${drift}px, 110vh) rotate(${Math.random()*720}deg)`;
+    }, 50);
+
+    setTimeout(() => {
+      petal.remove();
+    }, duration * 1000);
+
+  }, 300); // NEW PETAL EVERY 300ms (continuous)
 }
 
 </script>
