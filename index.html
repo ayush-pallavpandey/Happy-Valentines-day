@@ -5,209 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Love Story ❤️</title>
 
-<style>
-body{
-margin:0;
-background:black;
-font-family:Georgia,serif;
-overflow:hidden;
-color:gold;
-}
-
-.center{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-}
-
-.box{
-background:rgba(0,0,0,0.85);
-padding:40px;
-border:2px solid gold;
-box-shadow:0 0 30px gold;
-text-align:center;
-}
-
-input{
-padding:10px;
-width:220px;
-}
-
-button{
-padding:10px 20px;
-margin-top:10px;
-background:gold;
-border:none;
-cursor:pointer;
-font-weight:bold;
-}
-
-.slideshow{
-position:fixed;
-inset:0;
-z-index:-1;
-}
-
-.slide{
-position:absolute;
-width:100%;
-height:100%;
-object-fit:cover;
-opacity:0;
-transition:opacity 2s;
-}
-
-.slide.active{
-opacity:1;
-}
-
-.letter{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.85);
-display:none;
-justify-content:center;
-align-items:center;
-}
-
-.letter-box{
-background:#fef5e7;
-padding:40px;
-border:3px solid gold;
-font-size:24px;
-color:#5d4037;
-text-align:center;
-max-width:600px;
-}
-
-.petal{
-position:fixed;
-font-size:20px;
-animation:fall linear infinite;
-}
-
-@keyframes fall{
-0%{transform:translateY(-10vh);}
-100%{transform:translateY(110vh);}
-}
-</style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
 <div id="login" class="center">
-<div class="box">
-<h2>Enter The Secret Word ❤️</h2>
-<input type="password" id="pass">
-<br>
-<button onclick="unlock()">Unlock</button>
-<p id="error" style="color:red;"></p>
-</div>
+  <div class="box">
+    <h2>Enter The Secret Word ❤️</h2>
+    <input type="password" id="pass">
+    <br>
+    <button onclick="unlock()">Unlock</button>
+    <p id="error"></p>
+  </div>
 </div>
 
 <div id="main" style="display:none;">
 
-<div class="slideshow">
-<img src="ONE.jpeg" class="slide active">
-<img src="TWO.jpeg" class="slide">
-<img src="THREE.jpeg" class="slide">
-<img src="FOUR.jpeg" class="slide">
-<img src="five.jpeg" class="slide">
-</div>
+  <div class="slideshow">
+    <img src="images/ONE.jpeg" class="slide active">
+    <img src="images/TWO.jpeg" class="slide">
+    <img src="images/THREE.jpeg" class="slide">
+    <img src="images/FOUR.jpeg" class="slide">
+    <img src="images/five.jpeg" class="slide">
+  </div>
 
 </div>
 
 <div id="letter" class="letter">
-<div class="letter-box" id="letterText"></div>
+  <div class="letter-box" id="letterText"></div>
 </div>
 
 <audio id="music" loop>
-<source src="romantic-song.mp3" type="audio/mpeg">
+  <source src="romantic-song.mp3" type="audio/mpeg">
 </audio>
 
-<script>
-const PASSWORD="TA2302";
-
-const LETTERS=[
-"You walked into my life and everything changed ❤️",
-"You are the reason my heart smiles every day ✨",
-"With you, love feels magical 💕",
-"You are my peace, my happiness 🌹",
-"I will always choose you ❤️"
-];
-
-function unlock(){
-const input=document.getElementById("pass").value;
-
-if(input===PASSWORD){
-document.getElementById("login").style.display="none";
-document.getElementById("main").style.display="block";
-startMusic();
-startSlideshow();
-}else{
-document.getElementById("error").innerText="Wrong password ❤️";
-}
-}
-
-function startMusic(){
-const music=document.getElementById("music");
-music.volume=0;
-music.play().then(()=>{
-let v=0;
-let fade=setInterval(()=>{
-if(v<0.6){
-v+=0.02;
-music.volume=v;
-}else{
-clearInterval(fade);
-}
-},200);
-}).catch(()=>{});
-}
-
-function startSlideshow(){
-const slides=document.querySelectorAll(".slide");
-let index=0;
-
-setInterval(()=>{
-slides[index].classList.remove("active");
-showLetter(index);
-
-index=(index+1)%slides.length;
-slides[index].classList.add("active");
-
-},6000);
-}
-
-function showLetter(i){
-const letter=document.getElementById("letter");
-const text=document.getElementById("letterText");
-
-letter.style.display="flex";
-text.innerText=LETTERS[i];
-
-createPetals();
-
-setTimeout(()=>{
-letter.style.display="none";
-},3500);
-}
-
-function createPetals(){
-for(let i=0;i<15;i++){
-const p=document.createElement("div");
-p.className="petal";
-p.innerText="🌹";
-p.style.left=Math.random()*100+"%";
-p.style.animationDuration=(Math.random()*4+4)+"s";
-document.body.appendChild(p);
-
-setTimeout(()=>{p.remove();},8000);
-}
-}
-</script>
-
+<script src="js/script.js"></script>
 </body>
 </html>
