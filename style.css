@@ -6,7 +6,6 @@ body{
 }
 
 /* LOGIN */
-
 .center{
   position:fixed;
   inset:0;
@@ -39,17 +38,18 @@ button{
   font-weight:bold;
 }
 
-/* SLIDESHOW */
-
+/* MAIN AREA */
 #main{
   display:none;
   position:fixed;
   inset:0;
 }
 
+/* SLIDESHOW */
 .slideshow{
   position:absolute;
   inset:0;
+  z-index:1; /* Behind message */
 }
 
 .slide{
@@ -71,17 +71,21 @@ button{
 }
 
 /* MESSAGE */
-
 .message-box{
   position:absolute;
-  bottom:10%;
+  bottom:8%;
   width:100%;
   text-align:center;
+  z-index:10; /* Above image */
+  pointer-events:none;
+}
+
+#messageText{
   color:white;
-  font-size:28px;
+  font-size:30px;
   font-weight:bold;
-  text-shadow:0 0 20px gold;
-  animation:fadeIn 2s;
+  text-shadow:0 0 25px gold;
+  animation:fadeIn 1.5s ease-in-out;
 }
 
 @keyframes fadeIn{
