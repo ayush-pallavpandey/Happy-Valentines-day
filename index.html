@@ -13,7 +13,7 @@ body{
   color:white;
 }
 
-/* LOGIN SCREEN */
+/* LOGIN */
 #login{
   position:fixed;
   inset:0;
@@ -35,7 +35,6 @@ body{
 input{
   padding:10px;
   width:220px;
-  border:none;
 }
 
 button{
@@ -46,20 +45,17 @@ button{
   font-weight:bold;
 }
 
-/* MAIN AREA */
+/* MAIN */
 #main{
   display:none;
   position:fixed;
   inset:0;
 }
 
-/* SLIDESHOW */
 .slide{
   position:absolute;
   max-width:90%;
   max-height:85vh;
-  width:auto;
-  height:auto;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
@@ -67,20 +63,19 @@ button{
   transition:opacity 1.5s ease-in-out;
   border-radius:20px;
   box-shadow:0 0 40px gold;
-  object-fit:contain; /* keeps image clear */
+  object-fit:contain;
 }
 
 .slide.active{
   opacity:1;
 }
 
-/* MESSAGE TEXT */
 .message{
   position:absolute;
   bottom:5%;
   width:100%;
   text-align:center;
-  font-size:30px;
+  font-size:28px;
   font-weight:bold;
   text-shadow:0 0 20px gold;
 }
@@ -102,7 +97,6 @@ button{
 
 <body>
 
-<!-- LOGIN -->
 <div id="login">
   <div class="login-box">
     <h2>Enter The Secret Word ❤️</h2>
@@ -113,13 +107,13 @@ button{
   </div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div id="main">
 
-  <img src="./one.jpeg" class="slide active">
-  <img src="./two.jpg" class="slide">
-  <img src="./three.jpeg" class="slide">
-  <img src="./four.jpeg" class="slide">
+  <!-- Make sure filenames match EXACTLY on GitHub -->
+  <img src="./ONE.jpeg" class="slide active">
+  <img src="./TWO.jpg" class="slide">
+  <img src="./THREE.jpeg" class="slide">
+  <img src="./FOUR.jpeg" class="slide">
   <img src="./five.jpeg" class="slide">
   <img src="./Six.jpeg" class="slide">
   <img src="./Seven.jpeg" class="slide">
@@ -138,16 +132,14 @@ button{
 const PASSWORD="TA2302";
 
 const messages=[
-  " Love is in the air nah It,s in Banaras 🛕"
-"You walked into my life and everything became beautiful ❤️",
-"Every smile of yours makes my world brighter ✨",
-"With you, love feels effortless 💕",
-"You are my peace, my happiness, my forever 🌹",
-"I will always choose you ❤️"
-  😍
-  "Lets Cherish This beautiful moments together For they become our best memory " 
-    "to write a book upon"
-  "FOR ME U R MY FIRST MY ONLY MY LAST"
+  "Love is in the air ❤️",
+  "You walked into my life and everything became beautiful ❤️",
+  "Every smile of yours makes my world brighter ✨",
+  "With you, love feels effortless 💕",
+  "You are my peace, my happiness, my forever 🌹",
+  "Let’s cherish these beautiful moments together 💞",
+  "For me you are my first, my only, my last ❤️",
+  "Our story is my favorite story 💖"
 ];
 
 function unlock(){
@@ -179,19 +171,16 @@ function startSlideshow(){
 
   setInterval(()=>{
     slides[index].classList.remove("active");
-
     index=(index+1)%slides.length;
-
     slides[index].classList.add("active");
     document.getElementById("messageText").innerText=messages[index];
-
   },5000);
 }
 
 function startPetals(){
   setInterval(()=>{
     const petal=document.createElement("img");
-    petal.src="./petal.png"; /* make sure petal.png exists */
+    petal.src="./petal.png";
     petal.className="petal";
     petal.style.left=Math.random()*100+"%";
     petal.style.animationDuration=(Math.random()*5+5)+"s";
