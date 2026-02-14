@@ -3,39 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <title>Our Love Story ❤️</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+  margin:0;
+  background:black;
+  font-family:Georgia,serif;
+  overflow:hidden;
+}
+
+/* LOGIN */
+#login{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+}
+
+.box{
+  background:rgba(0,0,0,0.95);
+  padding:40px;
+  border:2px solid gold;
+  box-shadow:0 0 40px gold;
+  text-align:center;
+  color:white;
+}
+
+input{
+  padding:10px;
+  width:220px;
+}
+
+button{
+  padding:10px 20px;
+  background:gold;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* MAIN */
+#main{
+  display:none;
+  position:fixed;
+  inset:0;
+}
+
+/* SLIDESHOW */
+.slide{
+  position:absolute;
+  width:60%;
+  height:70%;
+  object-fit:cover;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  opacity:0;
+  transition:opacity 2s ease-in-out;
+  border-radius:20px;
+  box-shadow:0 0 40px gold;
+}
+
+.slide.active{
+  opacity:1;
+}
+
+/* MESSAGE */
+.message{
+  position:absolute;
+  bottom:8%;
+  width:100%;
+  text-align:center;
+  color:white;
+  font-size:28px;
+  font-weight:bold;
+  text-shadow:0 0 20px gold;
+  z-index:10;
+}
+
+/* PETALS */
+.petal{
+  position:fixed;
+  width:35px;
+  pointer-events:none;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  0%{ transform:translateY(-100px) rotate(0deg);}
+  100%{ transform:translateY(110vh) rotate(360deg);}
+}
+</style>
 </head>
 <body>
 
-<div id="login" class="center">
+<!-- LOGIN -->
+<div id="login">
   <div class="box">
     <h2>Enter The Secret Word ❤️</h2>
     <input type="password" id="pass">
+    <br><br>
     <button onclick="unlock()">Unlock</button>
-    <p id="error"></p>
+    <p id="error" style="color:red;"></p>
   </div>
 </div>
 
+<!-- MAIN -->
 <div id="main">
-  <div class="slideshow">
-    <img src="one.jpeg" class="slide active">
-    <img src="two.jpg" class="slide">
-    <img src="three.jpeg" class="slide">
-    <img src="four.jpeg" class="slide">
-    <img src="five.jpeg" class="slide">
-  </div>
 
-  <!-- MESSAGE BOX -->
- <div class="message-box">
-  <p id="messageText"></p>
-</div>
-  </div>
+  <img src="ONE.jpeg" class="slide active">
+  <img src="TWO.jpeg" class="slide">
+  <img src="THREE.jpeg" class="slide">
+  <img src="FOUR.jpeg" class="slide">
+  <img src="five.jpeg" class="slide">
+
+  <div class="message" id="messageText"></div>
+
 </div>
 
 <audio id="music" loop>
   <source src="romantic-song.mp3" type="audio/mpeg">
 </audio>
 
-<script src="script.js"></script>
+<script>
+const PASSWORD="TA2302";
+
+const MESSAGES=[
+  "You are my happiness ❤️",
+  "Every moment with you is magic ✨",
+  "With you, life feels complete 💕",
+  "You are my forever 🌹",
+  "I will always choose you ❤️"
+];
+
+function unlock(){
+  const input=document.getElementById("pass").value;
+
+  if(input===PASSWORD){
+    document.getElementById("login").style.display="none";
+    document.getElementById("main").style.display="block";
+
+    startMusic();
+    startSlideshow();
+    startPetalRain();
+  }else{
+    document.getElementById("error").innerText="Wrong password ❤️";
+  }
+}
+
+function startMusic(){
+  const music=document.getElementById("music");
+  music.volume=0.5;
+  music.play().catch(()=>{});
+}
+
+function startSlideshow(){
+  const slides=document.querySelectorAll(".slide");
+  let index=0;
+
+  document.getElementById("messageText").innerText=MESSAGES[0];
+
+  setInterval(()=>{
+    slides[index].classList.remove("active");
+
+    index=(index+1)%slides.length;
+
+    slides[index].classList.add("active");
+    document.getElementById("messageText").innerText=MESSAGES[index];
+
+  },5000);
+}
+
+function startPetalRain(){
+  setInterval(()=>{
+    const petal=document.createElement("img");
+    petal.src="petal.png";
+    petal.className="petal";
+    petal.style.left=Math.random()*100+"%";
+    petal.style.animationDuration=(Math.random()*5+5)+"s";
+    document.body.appendChild(petal);
+
+    setTimeout(()=>{ petal.remove(); },10000);
+  },300);
+}
+</script>
+
 </body>
 </html>
