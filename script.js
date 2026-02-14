@@ -1,82 +1,47 @@
-const PASSWORD = "TA2302";
+const PASSWORD="TA2302";
 
-/* UNLOCK */
-function unlock() {
+const MESSAGES=[
+  "You walked into my life and everything became beautiful ❤️",
+  "Every moment with you feels like magic ✨",
+  "With you, love feels easy and forever feels real 💕",
+  "You are my peace, my happiness, my home 🌹",
+  "No matter what life brings, I will always choose you ❤️"
+];
 
-  const input = document.getElementById("pass").value;
+function unlock(){
+  const input=document.getElementById("pass").value;
 
-  if (input === PASSWORD) {
-
-    document.getElementById("login").style.display = "none";
-    document.getElementById("main").style.display = "block";
+  if(input===PASSWORD){
+    document.getElementById("login").style.display="none";
+    document.getElementById("main").style.display="block";
 
     startMusic();
     startSlideshow();
-    startPetalRain();
-
-  } else {
-    document.getElementById("error").innerText = "Wrong password ❤️";
-document.getElementById("error").style.color = "red";
+  }else{
+    document.getElementById("error").innerText="Wrong password ❤️";
   }
 }
 
-/* MUSIC */
-function startMusic() {
-  const music = document.getElementById("music");
-  music.volume = 0.6;
-
-  music.play().catch(err => {
-    console.log("Music blocked:", err);
-  });
+function startMusic(){
+  const music=document.getElementById("music");
+  music.volume=0.5;
+  music.play().catch(()=>{});
 }
 
-/* SLIDESHOW */
-function startSlideshow() {
+function startSlideshow(){
+  const slides=document.querySelectorAll(".slide");
+  const message=document.getElementById("messageText");
+  let current=0;
 
-  const slides = document.querySelectorAll(".slide");
-  let index = 0;
+  message.innerText=MESSAGES[0];
 
-  setInterval(() => {
+  setInterval(()=>{
+    slides[current].classList.remove("active");
 
-    slides[index].classList.remove("active");
+    current=(current+1)%slides.length;
 
-    index = (index + 1) % slides.length;
+    slides[current].classList.add("active");
+    message.innerText=MESSAGES[current];
 
-    slides[index].classList.add("active");
-
-  }, 4000);
-}
-
-/* CONTINUOUS RANDOM PETAL RAIN */
-function startPetalRain() {
-
-  setInterval(() => {
-
-    const petal = document.createElement("img");
-
-    petal.src = "petal.png";   // must exist in root
-    petal.style.position = "fixed";
-    petal.style.top = "-100px";
-    petal.style.left = Math.random() * 100 + "vw";
-    petal.style.width = (Math.random() * 50 + 40) + "px";
-    petal.style.pointerEvents = "none";
-    petal.style.zIndex = "9999";
-
-    const duration = Math.random() * 6 + 6;
-    petal.style.transition = `transform ${duration}s linear`;
-
-    document.body.appendChild(petal);
-
-    const drift = (Math.random() - 0.5) * 300;
-
-    setTimeout(() => {
-      petal.style.transform =
-        `translate(${drift}px, 110vh) rotate(${Math.random()*720}deg)`;
-    }, 50);
-
-    setTimeout(() => {
-      petal.remove();
-    }, duration * 1000);
-
-  }, 300);
+  },5000);
 }
