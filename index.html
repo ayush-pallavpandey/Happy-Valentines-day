@@ -196,13 +196,21 @@ function showLetter(index){
 
 /* BIG REAL PETALS */
 function createPetals(){
-  for(let i=0;i<20;i++){
+  console.log("Petals triggered");
+
+  for(let i=0;i<10;i++){
+
     const petal=document.createElement("img");
-    petal.src="petal.png";   /* YOUR PNG FILE NAME */
-    petal.className="petal";
+    petal.src="./petal.png";   // safer path
+    petal.style.position="fixed";
+    petal.style.top="-100px";
     petal.style.left=Math.random()*100+"vw";
-    petal.style.width=(Math.random()*60+50)+"px";  /* BIG SIZE */
-    petal.style.animationDuration=(Math.random()*5+5)+"s";
+    petal.style.width="80px";   // fixed big size
+    petal.style.zIndex="9999";
+    petal.style.pointerEvents="none";
+
+    petal.style.animation="fall 8s linear forwards";
+
     document.body.appendChild(petal);
 
     setTimeout(()=>{petal.remove();},8000);
