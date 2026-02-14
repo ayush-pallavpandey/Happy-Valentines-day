@@ -1,11 +1,11 @@
 const PASSWORD = "TA2302";
 
 const LETTERS = [
-"You walked into my life and everything changed ❤️",
-"You are the reason my heart smiles every day ✨",
-"With you, love feels magical 💕",
-"You are my peace, my happiness 🌹",
-"I will always choose you ❤️"
+  "You walked into my life and everything became beautiful ❤️",
+  "Every moment with you feels magical ✨",
+  "With you, forever feels real 💕",
+  "You are my peace and happiness 🌹",
+  "I will always choose you ❤️"
 ];
 
 function unlock() {
@@ -15,9 +15,7 @@ function unlock() {
     document.getElementById("login").style.display = "none";
     document.getElementById("main").style.display = "block";
 
-    // 🔥 IMPORTANT: music starts ONLY after user click
     startMusic();
-
     startSlideshow();
   } else {
     document.getElementById("error").innerText = "Wrong password ❤️";
@@ -27,56 +25,36 @@ function unlock() {
 function startMusic() {
   const music = document.getElementById("music");
 
-  music.volume = 0.6;
+  music.volume = 0.5;
 
-  // Force play after interaction
-  music.play().then(() => {
-    console.log("Music started successfully");
-  }).catch(error => {
-    console.log("Autoplay blocked:", error);
+  music.play().catch(() => {
+    console.log("Autoplay blocked. User interaction required.");
   });
 }
 
 function startSlideshow() {
   const slides = document.querySelectorAll(".slide");
-  let index = 0;
+  let current = 0;
 
   setInterval(() => {
+    slides[current].classList.remove("active");
 
-    slides[index].classList.remove("active");
+    showLetter(current);
 
-    showLetter(index);
+    current = (current + 1) % slides.length;
+    slides[current].classList.add("active");
 
-    index = (index + 1) % slides.length;
-
-    slides[index].classList.add("active");
-
-  }, 6000);
+  }, 5000);
 }
 
-function showLetter(i) {
+function showLetter(index) {
   const letter = document.getElementById("letter");
   const text = document.getElementById("letterText");
 
   letter.style.display = "flex";
-  text.innerText = LETTERS[i];
-
-  createPetals();
+  text.innerText = LETTERS[index];
 
   setTimeout(() => {
     letter.style.display = "none";
-  }, 3500);
-}
-
-function createPetals() {
-  for (let i = 0; i < 15; i++) {
-    const p = document.createElement("div");
-    p.className = "petal";
-    p.innerText = "🌹";
-    p.style.left = Math.random() * 100 + "%";
-    p.style.animationDuration = (Math.random() * 4 + 4) + "s";
-    document.body.appendChild(p);
-
-    setTimeout(() => { p.remove(); }, 8000);
-  }
+  }, 3000);
 }
