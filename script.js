@@ -15,8 +15,9 @@ function unlock() {
     document.getElementById("login").style.display = "none";
     document.getElementById("main").style.display = "block";
 
-    startMusic();
+    startMusic();      // 🔥 start music after user click
     startSlideshow();
+
   } else {
     document.getElementById("error").innerText = "Wrong password ❤️";
   }
@@ -25,34 +26,45 @@ function unlock() {
 function startMusic() {
   const music = document.getElementById("music");
 
-  music.volume = 0.5;
+  music.volume = 0.7;
 
-  music.play().catch(() => {
-    console.log("Autoplay blocked. User interaction required.");
-  });
+  // Force play after click
+  const playPromise = music.play();
+
+  if (playPromise !== undefined) {
+    playPromise
+      .then(() => {
+        console.log("Music playing");
+      })
+      .catch(error => {
+        console.log("Autoplay blocked:", error);
+      });
+  }
 }
 
 function startSlideshow() {
   const slides = document.querySelectorAll(".slide");
-  let current = 0;
+  let index = 0;
 
   setInterval(() => {
-    slides[current].classList.remove("active");
 
-    showLetter(current);
+    slides[index].classList.remove("active");
 
-    current = (current + 1) % slides.length;
-    slides[current].classList.add("active");
+    showLetter(index);
+
+    index = (index + 1) % slides.length;
+
+    slides[index].classList.add("active");
 
   }, 5000);
 }
 
-function showLetter(index) {
+function showLetter(i) {
   const letter = document.getElementById("letter");
   const text = document.getElementById("letterText");
 
   letter.style.display = "flex";
-  text.innerText = LETTERS[index];
+  text.innerText = LETTERS[i];
 
   setTimeout(() => {
     letter.style.display = "none";
