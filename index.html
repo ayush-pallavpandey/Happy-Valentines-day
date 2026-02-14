@@ -1,57 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Valentine Surprise ❤️</title>
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body>
-    <div id="app">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Love ❤️</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
 
-      <div class="lock-screen" id="lockScreen">
-        <h1>This love surprise unlocks on February 14 ❤️</h1>
-      </div>
+<div id="app">
 
-      <div class="password-screen" id="passwordScreen">
-        <h2>Enter the password ❤️</h2>
-        <input type="password" id="passwordInput" placeholder="Password">
-        <button id="unlockBtn">Unlock</button>
-        <p id="errorMessage">Wrong password ❤️</p>
-      </div>
+  <!-- DATE LOCK -->
+  <div id="dateLock" class="center-screen hidden">
+    <h1>This love surprise unlocks on February 14 ❤️</h1>
+  </div>
 
-      <div class="intro-screen" id="introScreen">
-        <h1 class="cinematic">A Love Story</h1>
-        <h1 class="cinematic big">Written In Destiny</h1>
-        <h1 class="cinematic">Starring Us ❤️</h1>
-      </div>
+  <!-- PASSWORD -->
+  <div id="passwordScreen" class="center-screen hidden">
+    <div class="card">
+      <h2>Enter The Secret Word ❤️</h2>
+      <input type="password" id="passwordInput" placeholder="Our special word..." />
+      <button id="unlockBtn">Unlock My Heart</button>
+      <p id="errorMsg"></p>
+    </div>
+  </div>
 
-      <div class="main-content" id="mainContent">
-        <div class="slideshow">
-          <img src="/one.jpeg" class="slide active">
-          <img src="/two.jpg" class="slide">
-          <img src="/three.jpeg" class="slide">
-          <img src="/four.jpeg" class="slide">
-          <img src="/five.jpeg" class="slide">
-        </div>
-      </div>
+  <!-- MAIN CONTENT -->
+  <div id="mainContent" class="hidden">
 
-      <div class="letter-overlay" id="letterOverlay">
-        <div class="letter" id="letter">
-          <div id="typedText"></div>
-        </div>
-      </div>
-
-      <div class="final-screen" id="finalScreen">
-        <h1>Happy Valentine's Day ❤️</h1>
-      </div>
-
-      <audio id="bgMusic" loop>
-        <source src="/romantic-song.mp3" type="audio/mpeg">
-      </audio>
-
+    <div class="slideshow">
+      <img src="/one.jpeg" class="slide active" />
+      <img src="/two.jpg" class="slide" />
+      <img src="/three.jpeg" class="slide" />
+      <img src="/four.jpeg" class="slide" />
+      <img src="/five.jpeg" class="slide" />
     </div>
 
-    <script type="module" src="/main.js"></script>
-  </body>
+    <div id="letterModal" class="letter-modal">
+      <div class="letter">
+        <div id="letterText"></div>
+      </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+      <source src="/romantic-song.mp3" type="audio/mpeg">
+    </audio>
+
+  </div>
+
+</div>
+
+<script type="module" src="/main.js"></script>
+</body>
 </html>
