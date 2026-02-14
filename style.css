@@ -3,8 +3,10 @@ body {
   background: black;
   font-family: Georgia, serif;
   color: gold;
+  overflow: hidden;
 }
 
+/* CENTER LOGIN */
 .center {
   height: 100vh;
   display: flex;
@@ -34,6 +36,7 @@ button {
   font-weight: bold;
 }
 
+/* SLIDESHOW */
 .slideshow {
   position: fixed;
   inset: 0;
@@ -57,6 +60,7 @@ button {
   opacity: 1;
 }
 
+/* LETTER */
 .letter {
   position: fixed;
   inset: 0;
@@ -66,4 +70,14 @@ button {
   align-items: center;
   color: white;
   font-size: 26px;
+}
+
+/* PETALS */
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+  }
 }
