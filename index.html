@@ -2,38 +2,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Love Story ❤️</title>
 
 <link rel="stylesheet" href="style.css">
-</head>
 
+</head>
 <body>
 
 <div id="login" class="center">
   <div class="box">
     <h2>Enter The Secret Word ❤️</h2>
     <input type="password" id="pass">
-    <br>
     <button onclick="unlock()">Unlock</button>
     <p id="error"></p>
   </div>
 </div>
 
 <div id="main" style="display:none;">
-
   <div class="slideshow">
-    <img src="images/ONE.jpeg" class="slide active">
-    <img src="images/TWO.jpeg" class="slide">
-    <img src="images/THREE.jpeg" class="slide">
-    <img src="images/FOUR.jpeg" class="slide">
-    <img src="images/five.jpeg" class="slide">
+    <img src="ONE.jpeg" class="slide active">
+    <img src="TWO.jpeg" class="slide">
+    <img src="THREE.jpeg" class="slide">
+    <img src="FOUR.jpeg" class="slide">
+    <img src="five.jpeg" class="slide">
   </div>
-
 </div>
 
 <div id="letter" class="letter">
-  <div class="letter-box" id="letterText"></div>
+  <div id="letterText"></div>
 </div>
 
 <audio id="music" loop>
@@ -41,5 +37,6 @@
 </audio>
 
 <script src="script.js"></script>
+
 </body>
 </html>
