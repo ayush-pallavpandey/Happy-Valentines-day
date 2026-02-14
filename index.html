@@ -1,55 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Love ❤️</title>
-  <link rel="stylesheet" href="/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Love ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: radial-gradient(circle, #2c1810, #000);
+  color: white;
+  overflow: hidden;
+}
+
+.hidden { display: none; }
+
+.center-screen {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.card {
+  background: white;
+  color: #d63447;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+input {
+  padding: 12px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px;
+  background: #d63447;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.slideshow {
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+  height: 500px;
+  margin: 60px auto;
+  overflow: hidden;
+  border: 5px solid gold;
+  box-shadow: 0 0 40px gold;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 2s;
+}
+
+.slide.active { opacity: 1; }
+
+.fade-black { animation: fadeBlack 1s forwards; }
+
+@keyframes fadeBlack {
+  from { filter: brightness(1); }
+  to { filter: brightness(0); }
+}
+
+.letter-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.letter-modal.show { display: flex; }
+
+.letter {
+  background: #fef5e7;
+  padding: 40px;
+  max-width: 600px;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 26px;
+  color: #5d4037;
+  border: 3px solid gold;
+  animation: unfold 1s ease;
+  text-align: center;
+}
+
+@keyframes unfold {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+.final-message {
+  text-align: center;
+  font-size: 40px;
+  color: gold;
+  animation: heartbeat 1s infinite;
+}
+
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+</style>
 </head>
 <body>
 
-<div id="app">
+<div id="dateLock" class="center-screen hidden">
+  <h1>This love surprise unlocks on February 14 ❤️</h1>
+</div>
 
-  <!-- DATE LOCK -->
-  <div id="dateLock" class="center-screen hidden">
-    <h1>This love surprise unlocks on February 14 ❤️</h1>
+<div id="passwordScreen" class="center-screen hidden">
+  <div class="card">
+    <h2>Enter The Secret Word ❤️</h2>
+    <input type="password" id="passwordInput" placeholder="Our special word...">
+    <button onclick="checkPassword()">Unlock My Heart</button>
+    <p id="errorMsg" style="color:red;"></p>
+  </div>
+</div>
+
+<div id="mainContent" class="hidden">
+
+  <div class="slideshow">
+    <img src="one.jpeg" class="slide active">
+    <img src="two.jpg" class="slide">
+    <img src="three.jpeg" class="slide">
+    <img src="four.jpeg" class="slide">
+    <img src="five.jpeg" class="slide">
   </div>
 
-  <!-- PASSWORD -->
-  <div id="passwordScreen" class="center-screen hidden">
-    <div class="card">
-      <h2>Enter The Secret Word ❤️</h2>
-      <input type="password" id="passwordInput" placeholder="Our special word..." />
-      <button id="unlockBtn">Unlock My Heart</button>
-      <p id="errorMsg"></p>
-    </div>
+  <div id="letterModal" class="letter-modal">
+    <div class="letter" id="letterText"></div>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div id="mainContent" class="hidden">
-
-    <div class="slideshow">
-      <img src="/one.jpeg" class="slide active" />
-      <img src="/two.jpg" class="slide" />
-      <img src="/three.jpeg" class="slide" />
-      <img src="/four.jpeg" class="slide" />
-      <img src="/five.jpeg" class="slide" />
-    </div>
-
-    <div id="letterModal" class="letter-modal">
-      <div class="letter">
-        <div id="letterText"></div>
-      </div>
-    </div>
-
-    <audio id="bgMusic" loop>
-      <source src="/romantic-song.mp3" type="audio/mpeg">
-    </audio>
-
+  <div id="finalMessage" class="final-message hidden">
+    Happy Valentine's Day ❤️
   </div>
+
+  <audio id="bgMusic" loop>
+    <source src="romantic-song.mp3" type="audio/mpeg">
+  </audio>
 
 </div>
 
-<script type="module" src="/main.js"></script>
+<script>
+const PASSWORD = "TA2302";
+
+const LETTERS = [
+  "You walked into my life and everything became beautiful ❤️",
+  "Every moment with you feels like magic ✨",
+  "With you, love feels easy and forever feels real 💕",
+  "You are my peace, my happiness, my home 🌹",
+  "No matter what life brings, I will always choose you ❤️"
+];
+
+const today = new Date();
+if (today.getMonth() === 1 && today.getDate() === 14) {
+  document.getElementById("passwordScreen").classList.remove("hidden");
+} else {
+  document.getElementById("dateLock").classList.remove("hidden");
+}
+
+function checkPassword() {
+  const input = document.getElementById("passwordInput").value;
+  if (input === PASSWORD) {
+    document.getElementById("passwordScreen").classList.add("hidden");
+    document.getElementById("mainContent").classList.remove("hidden");
+    document.getElementById("bgMusic").play();
+    startSlideshow();
+  } else {
+    document.getElementById("errorMsg").innerText = "Wrong password ❤️";
+  }
+}
+
+function startSlideshow() {
+  const slides = document.querySelectorAll(".slide");
+  let current = 0;
+
+  const interval = setInterval(() => {
+    slides[current].classList.remove("active");
+    slides[current].classList.add("fade-black");
+
+    setTimeout(() => {
+      openLetter(current);
+
+      slides[current].classList.remove("fade-black");
+      current++;
+
+      if (current >= slides.length) {
+        clearInterval(interval);
+        document.getElementById("finalMessage").classList.remove("hidden");
+        return;
+      }
+
+      slides[current].classList.add("active");
+    }, 1000);
+
+  }, 6000);
+}
+
+function openLetter(index) {
+  const modal = document.getElementById("letterModal");
+  const text = document.getElementById("letterText");
+
+  modal.classList.add("show");
+  text.innerText = LETTERS[index];
+
+  setTimeout(() => {
+    modal.classList.remove("show");
+  }, 4000);
+}
+</script>
+
 </body>
 </html>
