@@ -1,86 +1,72 @@
 const PASSWORD = "TA2302";
 
-const LETTERS = [
-  "You walked into my life and everything became beautiful ❤️",
-  "Every moment with you feels magical ✨",
-  "With you, forever feels real 💕",
-  "You are my peace and happiness 🌹",
-  "I will always choose you ❤️"
-];
+/* UNLOCK */
+function unlock() {
 
-function unlock(){
   const input = document.getElementById("pass").value;
 
-  if(input === PASSWORD){
-    document.getElementById("login").style.display="none";
-    document.getElementById("main").style.display="block";
+  if (input === PASSWORD) {
+
+    document.getElementById("login").style.display = "none";
+    document.getElementById("main").style.display = "block";
 
     startMusic();
     startSlideshow();
-    startPetalRain();   // 👈 ADD THIS LINE HERE
+    startPetalRain();
+
+  } else {
+    document.getElementById("error").innerText = "Wrong password ❤️";
   }
 }
 
 /* MUSIC */
 function startMusic() {
   const music = document.getElementById("music");
-  music.volume = 0.8;
-  music.play().catch(()=>{});
+  music.volume = 0.6;
+
+  music.play().catch(err => {
+    console.log("Music blocked:", err);
+  });
 }
 
 /* SLIDESHOW */
 function startSlideshow() {
+
   const slides = document.querySelectorAll(".slide");
   let index = 0;
 
   setInterval(() => {
-    slides[index].classList.remove("active");
 
-    showLetter(index);
+    slides[index].classList.remove("active");
 
     index = (index + 1) % slides.length;
 
     slides[index].classList.add("active");
 
-  }, 6000);
-}
-
-/* LETTER + PETALS */
-function showLetter(i) {
-  const letter = document.getElementById("letter");
-  const text = document.getElementById("letterText");
-
-  text.innerText = LETTERS[i];
-  letter.style.display = "flex";
-
-  createPetals();
-
-  setTimeout(() => {
-    letter.style.display = "none";
   }, 4000);
 }
 
-/* 🔥 GUARANTEED WORKING PETALS */
+/* CONTINUOUS RANDOM PETAL RAIN */
 function startPetalRain() {
 
   setInterval(() => {
 
     const petal = document.createElement("img");
 
-    petal.src = "petal.png";
+    petal.src = "petal.png";   // must exist in root
     petal.style.position = "fixed";
-    petal.style.top = "-120px";
+    petal.style.top = "-100px";
     petal.style.left = Math.random() * 100 + "vw";
-    petal.style.width = (Math.random() * 40 + 40) + "px";
-    petal.style.zIndex = "9999";
+    petal.style.width = (Math.random() * 50 + 40) + "px";
     petal.style.pointerEvents = "none";
+    petal.style.zIndex = "9999";
 
-    const duration = Math.random() * 5 + 6;
+    const duration = Math.random() * 6 + 6;
     petal.style.transition = `transform ${duration}s linear`;
 
     document.body.appendChild(petal);
 
-    const drift = (Math.random() - 0.5) * 200;
+    const drift = (Math.random() - 0.5) * 300;
 
     setTimeout(() => {
       petal.style.transform =
