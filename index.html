@@ -5,8 +5,11 @@
 <title>Our Love Story ❤️</title>
 
 <style>
-body{
+
+/* ✅ MOBILE SAFE BACKGROUND FIX */
+html, body{
   margin:0;
+  height:100%;
   background:linear-gradient(135deg, #ff9ecb, #ff4f8b, #d1005d);
   font-family:Georgia, serif;
   overflow:hidden;
@@ -20,7 +23,7 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:linear-gradient(135deg, #ff9ecb, #ff4f8b, #d1005d);
+  background:inherit; /* use same gradient */
   z-index:1000;
 }
 
@@ -55,6 +58,7 @@ button{
   display:none;
   position:fixed;
   inset:0;
+  background:inherit; /* important for mobile */
 }
 
 .slide{
