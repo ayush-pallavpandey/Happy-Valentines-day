@@ -1,115 +1,104 @@
-:root {
-  font-family: "Times New Roman", serif;
-  color: #d4af37;
-  background: radial-gradient(circle, #1a0f0a, #000);
-}
-
 body {
   margin: 0;
+  font-family: Georgia, serif;
+  background: radial-gradient(circle, #2c1810, #000);
+  color: white;
   overflow: hidden;
 }
 
-.lock-screen,
-.password-screen,
-.intro-screen,
-.main-content,
-.letter-overlay,
-.final-screen {
-  position: fixed;
-  inset: 0;
+.hidden {
   display: none;
-  justify-content: center;
+}
+
+.center-screen {
+  height: 100vh;
+  display: flex;
   align-items: center;
-  flex-direction: column;
-  background: black;
+  justify-content: center;
   text-align: center;
 }
 
-.lock-screen { display: flex; }
+.card {
+  background: white;
+  color: #d63447;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+}
 
-input, button {
+input {
   padding: 10px;
-  margin: 10px;
-  font-size: 1rem;
+  margin-top: 15px;
+  width: 100%;
 }
 
 button {
-  background: #8b0000;
+  margin-top: 15px;
+  padding: 10px;
+  background: #d63447;
   color: white;
   border: none;
   cursor: pointer;
 }
 
-#errorMessage {
-  display: none;
-  color: red;
-}
-
-.cinematic {
-  opacity: 0;
-  animation: fadeIn 2s forwards;
-}
-
-.big {
-  font-size: 3rem;
-  text-shadow: 0 0 20px gold;
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
 .slideshow {
-  width: 80%;
-  max-width: 600px;
-  height: 400px;
-  overflow: hidden;
-  border: 4px solid gold;
-  box-shadow: 0 0 30px gold;
   position: relative;
+  width: 80%;
+  max-width: 800px;
+  height: 500px;
+  margin: 50px auto;
+  overflow: hidden;
+  border: 5px solid gold;
+  box-shadow: 0 0 30px gold;
 }
 
 .slide {
   position: absolute;
   width: 100%;
   height: 100%;
+  object-fit: cover;
   opacity: 0;
-  transition: opacity 2s ease, filter 2s ease;
+  transition: opacity 2s;
 }
 
 .slide.active {
   opacity: 1;
 }
 
-.slide.fade-black {
-  filter: brightness(0);
-  opacity: 0;
+.fade-black {
+  animation: fadeBlack 1s forwards;
 }
 
-.letter-overlay {
+@keyframes fadeBlack {
+  from { filter: brightness(1); }
+  to { filter: brightness(0); }
+}
+
+.letter-modal {
+  position: fixed;
+  inset: 0;
   background: rgba(0,0,0,0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.letter-modal.show {
+  display: flex;
 }
 
 .letter {
-  background: #f5f5dc;
-  padding: 20px;
-  border-radius: 10px;
-  color: #8b0000;
-  font-family: cursive;
-  max-width: 500px;
-  transform: scale(0);
-  transition: 0.6s;
+  background: #fef5e7;
+  padding: 40px;
+  max-width: 600px;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 24px;
+  color: #5d4037;
+  border: 3px solid gold;
+  animation: unfold 1s ease;
 }
 
-.letter.show {
-  transform: scale(1);
-}
-
-.final-screen h1 {
-  font-size: 3rem;
-  animation: heartbeat 1s infinite;
-}
-
-@keyframes heartbeat {
-  50% { transform: scale(1.1); }
+@keyframes unfold {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
 }
