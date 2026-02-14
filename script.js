@@ -15,39 +15,26 @@ function unlock() {
     document.getElementById("login").style.display = "none";
     document.getElementById("main").style.display = "block";
 
-    startMusic();      // 🔥 start music after user click
+    startMusic();
     startSlideshow();
-
   } else {
     document.getElementById("error").innerText = "Wrong password ❤️";
   }
 }
 
+/* MUSIC */
 function startMusic() {
   const music = document.getElementById("music");
-
-  music.volume = 0.7;
-
-  // Force play after click
-  const playPromise = music.play();
-
-  if (playPromise !== undefined) {
-    playPromise
-      .then(() => {
-        console.log("Music playing");
-      })
-      .catch(error => {
-        console.log("Autoplay blocked:", error);
-      });
-  }
+  music.volume = 0.8;
+  music.play().catch(()=>{});
 }
 
+/* SLIDESHOW */
 function startSlideshow() {
   const slides = document.querySelectorAll(".slide");
   let index = 0;
 
   setInterval(() => {
-
     slides[index].classList.remove("active");
 
     showLetter(index);
@@ -56,17 +43,48 @@ function startSlideshow() {
 
     slides[index].classList.add("active");
 
-  }, 5000);
+  }, 6000);
 }
 
+/* LETTER + PETALS */
 function showLetter(i) {
   const letter = document.getElementById("letter");
   const text = document.getElementById("letterText");
 
-  letter.style.display = "flex";
   text.innerText = LETTERS[i];
+  letter.style.display = "flex";
+
+  createPetals();
 
   setTimeout(() => {
     letter.style.display = "none";
-  }, 3000);
+  }, 4000);
+}
+
+/* 🔥 GUARANTEED WORKING PETALS */
+function createPetals() {
+  for (let i = 0; i < 15; i++) {
+
+    const petal = document.createElement("img");
+
+    petal.src = "petal.png";
+    petal.style.position = "fixed";
+    petal.style.top = "-120px";
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.width = "80px";
+    petal.style.zIndex = "9999";
+    petal.style.pointerEvents = "none";
+
+    petal.style.transition = "transform 8s linear";
+
+    document.body.appendChild(petal);
+
+    setTimeout(() => {
+      petal.style.transform = "translateY(110vh) rotate(360deg)";
+    }, 50);
+
+    setTimeout(() => {
+      petal.remove();
+    }, 8000);
+  }
 }
