@@ -1,6 +1,6 @@
-const PASSWORD="TA2302";
+const PASSWORD = "TA2302";
 
-const LETTERS=[
+const LETTERS = [
 "You walked into my life and everything changed ❤️",
 "You are the reason my heart smiles every day ✨",
 "With you, love feels magical 💕",
@@ -8,68 +8,75 @@ const LETTERS=[
 "I will always choose you ❤️"
 ];
 
-function unlock(){
-const input=document.getElementById("pass").value;
+function unlock() {
+  const input = document.getElementById("pass").value;
 
-if(input===PASSWORD){
-document.getElementById("login").style.display="none";
-document.getElementById("main").style.display="block";
+  if (input === PASSWORD) {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("main").style.display = "block";
 
-startMusic();
-startSlideshow();
+    // 🔥 IMPORTANT: music starts ONLY after user click
+    startMusic();
 
-}else{
-document.getElementById("error").innerText="Wrong password ❤️";
-}
-}
-
-function startMusic(){
-const music=document.getElementById("music");
-
-music.volume=0.5;
-
-music.play().catch(()=>{
-console.log("Autoplay blocked");
-});
+    startSlideshow();
+  } else {
+    document.getElementById("error").innerText = "Wrong password ❤️";
+  }
 }
 
-function startSlideshow(){
-const slides=document.querySelectorAll(".slide");
-let index=0;
+function startMusic() {
+  const music = document.getElementById("music");
 
-setInterval(()=>{
-slides[index].classList.remove("active");
-showLetter(index);
+  music.volume = 0.6;
 
-index=(index+1)%slides.length;
-slides[index].classList.add("active");
-
-},6000);
+  // Force play after interaction
+  music.play().then(() => {
+    console.log("Music started successfully");
+  }).catch(error => {
+    console.log("Autoplay blocked:", error);
+  });
 }
 
-function showLetter(i){
-const letter=document.getElementById("letter");
-const text=document.getElementById("letterText");
+function startSlideshow() {
+  const slides = document.querySelectorAll(".slide");
+  let index = 0;
 
-letter.style.display="flex";
-text.innerText=LETTERS[i];
+  setInterval(() => {
 
-createPetals();
+    slides[index].classList.remove("active");
 
-setTimeout(()=>{
-letter.style.display="none";
-},3500);
+    showLetter(index);
+
+    index = (index + 1) % slides.length;
+
+    slides[index].classList.add("active");
+
+  }, 6000);
 }
 
-function createPetals(){
-for(let i=0;i<15;i++){
-const p=document.createElement("div");
-p.className="petal";
-p.innerText="🌹";
-p.style.left=Math.random()*100+"%";
-p.style.animationDuration=(Math.random()*4+4)+"s";
-document.body.appendChild(p);
+function showLetter(i) {
+  const letter = document.getElementById("letter");
+  const text = document.getElementById("letterText");
 
-setTimeout(()=>{p.remove();},8000);
+  letter.style.display = "flex";
+  text.innerText = LETTERS[i];
+
+  createPetals();
+
+  setTimeout(() => {
+    letter.style.display = "none";
+  }, 3500);
 }
+
+function createPetals() {
+  for (let i = 0; i < 15; i++) {
+    const p = document.createElement("div");
+    p.className = "petal";
+    p.innerText = "🌹";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.animationDuration = (Math.random() * 4 + 4) + "s";
+    document.body.appendChild(p);
+
+    setTimeout(() => { p.remove(); }, 8000);
+  }
 }
