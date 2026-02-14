@@ -4,7 +4,106 @@
 <meta charset="UTF-8">
 <title>Our Love Story ❤️</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+body{
+  margin:0;
+  background:black;
+  font-family:Georgia,serif;
+  overflow:hidden;
+  color:white;
+}
+
+/* CENTER LOGIN */
+.center{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.box{
+  background:rgba(0,0,0,0.85);
+  padding:40px;
+  border:2px solid gold;
+  box-shadow:0 0 40px gold;
+  text-align:center;
+}
+
+input{
+  padding:12px;
+  width:220px;
+  margin-top:10px;
+}
+
+button{
+  padding:12px 20px;
+  margin-top:10px;
+  background:gold;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* SLIDESHOW */
+.slideshow{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.slide{
+  position:absolute;
+  width:70%;            /* MEDIUM SIZE */
+  max-height:80vh;
+  object-fit:contain;
+  border-radius:20px;
+  box-shadow:0 0 50px gold;
+  opacity:0;
+  transition:opacity 2s ease-in-out;
+}
+
+.slide.active{
+  opacity:1;
+}
+
+/* LETTER */
+.letter{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+}
+
+.letter-content{
+  background:#fef5e7;
+  padding:40px;
+  font-size:26px;
+  color:#5d4037;
+  border:3px solid gold;
+  border-radius:15px;
+  text-align:center;
+  max-width:600px;
+}
+
+/* BIG PETALS */
+.petal{
+  position:fixed;
+  top:-100px;
+  pointer-events:none;
+  z-index:9999;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  0%{transform:translateY(-100px) rotate(0deg);}
+  100%{transform:translateY(110vh) rotate(360deg);}
+}
+</style>
 
 </head>
 <body>
@@ -13,8 +112,9 @@
   <div class="box">
     <h2>Enter The Secret Word ❤️</h2>
     <input type="password" id="pass">
+    <br>
     <button onclick="unlock()">Unlock</button>
-    <p id="error"></p>
+    <p id="error" style="color:red;"></p>
   </div>
 </div>
 
@@ -29,14 +129,87 @@
 </div>
 
 <div id="letter" class="letter">
-  <div id="letterText"></div>
+  <div class="letter-content" id="letterText"></div>
 </div>
 
-<audio id="music" loop preload="auto">
+<audio id="music" loop>
   <source src="romantic-song.mp3" type="audio/mpeg">
 </audio>
 
-<script src="script.js"></script>
+<script>
+
+const PASSWORD = "TA2302";
+
+const LETTERS = [
+"You walked into my life and everything became beautiful ❤️",
+"Every moment with you feels like magic ✨",
+"With you, love feels easy and forever feels real 💕",
+"You are my peace, my happiness, my home 🌹",
+"No matter what life brings, I will always choose you ❤️"
+];
+
+function unlock(){
+  const input = document.getElementById("pass").value;
+  if(input === PASSWORD){
+    document.getElementById("login").style.display="none";
+    document.getElementById("main").style.display="block";
+    startMusic();
+    startSlideshow();
+  } else {
+    document.getElementById("error").innerText="Wrong password ❤️";
+  }
+}
+
+/* MUSIC FIX */
+function startMusic(){
+  const music=document.getElementById("music");
+  music.volume=0.8;
+  music.play().catch(()=>{});
+}
+
+/* SLIDESHOW */
+function startSlideshow(){
+  const slides=document.querySelectorAll(".slide");
+  let current=0;
+
+  setInterval(()=>{
+    slides[current].classList.remove("active");
+    showLetter(current);
+    current=(current+1)%slides.length;
+    slides[current].classList.add("active");
+  },6000);
+}
+
+/* LETTER */
+function showLetter(index){
+  const letter=document.getElementById("letter");
+  const text=document.getElementById("letterText");
+  text.innerText=LETTERS[index];
+  letter.style.display="flex";
+
+  createPetals();
+
+  setTimeout(()=>{
+    letter.style.display="none";
+  },4000);
+}
+
+/* BIG REAL PETALS */
+function createPetals(){
+  for(let i=0;i<20;i++){
+    const petal=document.createElement("img");
+    petal.src="petal.png";   /* YOUR PNG FILE NAME */
+    petal.className="petal";
+    petal.style.left=Math.random()*100+"vw";
+    petal.style.width=(Math.random()*60+50)+"px";  /* BIG SIZE */
+    petal.style.animationDuration=(Math.random()*5+5)+"s";
+    document.body.appendChild(petal);
+
+    setTimeout(()=>{petal.remove();},8000);
+  }
+}
+
+</script>
 
 </body>
 </html>
