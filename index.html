@@ -13,7 +13,7 @@ body{
   color:white;
 }
 
-/* LOGIN */
+/* LOGIN SCREEN */
 #login{
   position:fixed;
   inset:0;
@@ -35,6 +35,7 @@ body{
 input{
   padding:10px;
   width:220px;
+  border:none;
 }
 
 button{
@@ -45,19 +46,20 @@ button{
   font-weight:bold;
 }
 
-/* MAIN */
+/* MAIN AREA */
 #main{
   display:none;
   position:fixed;
   inset:0;
 }
 
-/* SLIDES */
+/* SLIDESHOW */
 .slide{
   position:absolute;
-  width:65%;
-  height:75%;
-  object-fit:cover;
+  max-width:90%;
+  max-height:85vh;
+  width:auto;
+  height:auto;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
@@ -65,13 +67,14 @@ button{
   transition:opacity 1.5s ease-in-out;
   border-radius:20px;
   box-shadow:0 0 40px gold;
+  object-fit:contain; /* keeps image clear */
 }
 
 .slide.active{
   opacity:1;
 }
 
-/* MESSAGE */
+/* MESSAGE TEXT */
 .message{
   position:absolute;
   bottom:5%;
@@ -85,7 +88,7 @@ button{
 /* PETALS */
 .petal{
   position:fixed;
-  width:40px;
+  width:35px;
   pointer-events:none;
   animation:fall linear infinite;
 }
@@ -110,14 +113,17 @@ button{
   </div>
 </div>
 
-<!-- MAIN -->
+<!-- MAIN CONTENT -->
 <div id="main">
 
-  <img src="./ONE.jpeg" class="slide active">
-  <img src="./TWO.jpg" class="slide">
-  <img src="./THREE.jpeg" class="slide">
-  <img src="./FOUR.jpeg" class="slide">
+  <img src="./one.jpeg" class="slide active">
+  <img src="./two.jpg" class="slide">
+  <img src="./three.jpeg" class="slide">
+  <img src="./four.jpeg" class="slide">
   <img src="./five.jpeg" class="slide">
+  <img src="./Six.jpeg" class="slide">
+  <img src="./Seven.jpeg" class="slide">
+  <img src="./Eight.jpeg" class="slide">
 
   <div class="message" id="messageText"></div>
 
@@ -128,6 +134,7 @@ button{
 </audio>
 
 <script>
+
 const PASSWORD="TA2302";
 
 const messages=[
@@ -179,7 +186,7 @@ function startSlideshow(){
 function startPetals(){
   setInterval(()=>{
     const petal=document.createElement("img");
-    petal.src="./petal.png";
+    petal.src="./petal.png"; /* make sure petal.png exists */
     petal.className="petal";
     petal.style.left=Math.random()*100+"%";
     petal.style.animationDuration=(Math.random()*5+5)+"s";
@@ -187,8 +194,9 @@ function startPetals(){
 
     setTimeout(()=>{ petal.remove(); },10000);
 
-  },250);
+  },300);
 }
+
 </script>
 
 </body>
