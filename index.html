@@ -26,15 +26,18 @@ body{
 
 .login-box{
   background:rgba(0,0,0,0.95);
-  padding:40px;
+  padding:30px;
   border:2px solid gold;
-  box-shadow:0 0 40px gold;
+  box-shadow:0 0 30px gold;
   text-align:center;
+  width:85%;
+  max-width:350px;
 }
 
 input{
   padding:10px;
-  width:220px;
+  width:90%;
+  margin-top:10px;
 }
 
 button{
@@ -43,6 +46,7 @@ button{
   border:none;
   cursor:pointer;
   font-weight:bold;
+  margin-top:15px;
 }
 
 /* MAIN */
@@ -54,15 +58,15 @@ button{
 
 .slide{
   position:absolute;
-  max-width:90%;
-  max-height:85vh;
+  max-width:95%;
+  max-height:75vh;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
   opacity:0;
-  transition:opacity 1.5s ease-in-out;
-  border-radius:20px;
-  box-shadow:0 0 40px gold;
+  transition:opacity 1.2s ease-in-out;
+  border-radius:15px;
+  box-shadow:0 0 30px gold;
   object-fit:contain;
 }
 
@@ -72,20 +76,21 @@ button{
 
 .message{
   position:absolute;
-  bottom:5%;
+  bottom:8%;
   width:100%;
   text-align:center;
-  font-size:28px;
+  font-size:20px;
   font-weight:bold;
-  text-shadow:0 0 20px gold;
+  padding:0 10px;
+  text-shadow:0 0 15px gold;
 }
 
 /* PETALS */
 .petal{
   position:fixed;
-  width:35px;
+  width:25px;
   pointer-events:none;
-  animation:fall linear infinite;
+  animation:fall linear forwards;
 }
 
 @keyframes fall{
@@ -101,7 +106,6 @@ button{
   <div class="login-box">
     <h2>Enter The Secret Word ❤️</h2>
     <input type="password" id="password">
-    <br><br>
     <button onclick="unlock()">Unlock</button>
     <p id="error" style="color:red;"></p>
   </div>
@@ -109,7 +113,6 @@ button{
 
 <div id="main">
 
-  <!-- Make sure filenames match EXACTLY on GitHub -->
   <img src="./ONE.jpeg" class="slide active">
   <img src="./TWO.jpg" class="slide">
   <img src="./THREE.jpeg" class="slide">
@@ -132,7 +135,7 @@ button{
 const PASSWORD="TA2302";
 
 const messages=[
-  "Love is in the air Nah It's in Banaras 🛕",
+  "Love is in the air NAH ITs in Banaras 🛕",
   "You walked into my life and everything became beautiful ❤️",
   "Every smile of yours makes my world brighter ✨",
   "With you, love feels effortless 💕",
@@ -160,7 +163,7 @@ function unlock(){
 function startMusic(){
   const music=document.getElementById("music");
   music.volume=0.6;
-  music.play().catch(()=>{});
+  music.play();
 }
 
 function startSlideshow(){
@@ -174,7 +177,7 @@ function startSlideshow(){
     index=(index+1)%slides.length;
     slides[index].classList.add("active");
     document.getElementById("messageText").innerText=messages[index];
-  },5000);
+  },4000);
 }
 
 function startPetals(){
@@ -183,12 +186,12 @@ function startPetals(){
     petal.src="./petal.png";
     petal.className="petal";
     petal.style.left=Math.random()*100+"%";
-    petal.style.animationDuration=(Math.random()*5+5)+"s";
+    petal.style.animationDuration=(Math.random()*4+6)+"s";
     document.body.appendChild(petal);
 
     setTimeout(()=>{ petal.remove(); },10000);
 
-  },300);
+  },800); // slower to avoid mobile lag
 }
 
 </script>
