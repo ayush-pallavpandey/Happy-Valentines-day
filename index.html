@@ -1,255 +1,211 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Love Story ❤️</title>
 
 <style>
-body {
-  margin: 0;
-  background: black;
-  font-family: 'Georgia', serif;
-  overflow: hidden;
-  color: gold;
+body{
+margin:0;
+background:black;
+font-family:Georgia,serif;
+overflow:hidden;
+color:gold;
 }
 
-/* Center Screens */
-.center-screen {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
+.center{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
 }
 
-/* Password Box */
-.password-box {
-  background: rgba(0,0,0,0.8);
-  padding: 40px;
-  border: 2px solid gold;
-  box-shadow: 0 0 40px gold;
+.box{
+background:rgba(0,0,0,0.85);
+padding:40px;
+border:2px solid gold;
+box-shadow:0 0 30px gold;
+text-align:center;
 }
 
-input {
-  padding: 10px;
-  margin-top: 10px;
-  width: 200px;
+input{
+padding:10px;
+width:220px;
 }
 
-button {
-  padding: 10px 20px;
-  margin-top: 10px;
-  background: gold;
-  border: none;
-  cursor: pointer;
+button{
+padding:10px 20px;
+margin-top:10px;
+background:gold;
+border:none;
+cursor:pointer;
+font-weight:bold;
 }
 
-/* Cinematic Intro */
-#introText {
-  font-size: 40px;
-  opacity: 0;
-  animation: fadeIn 4s forwards;
+.slideshow{
+position:fixed;
+inset:0;
+z-index:-1;
 }
 
-@keyframes fadeIn {
-  to { opacity: 1; }
+.slide{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:0;
+transition:opacity 2s;
 }
 
-/* Golden Spark Particles */
-.spark {
-  position: fixed;
-  width: 3px;
-  height: 3px;
-  background: gold;
-  border-radius: 50%;
-  animation: sparkle 4s linear infinite;
+.slide.active{
+opacity:1;
 }
 
-@keyframes sparkle {
-  0% { transform: translateY(100vh); opacity: 0; }
-  10% { opacity: 1; }
-  100% { transform: translateY(-10vh); opacity: 0; }
+.letter{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.85);
+display:none;
+justify-content:center;
+align-items:center;
 }
 
-/* Rose Petals */
-.petal {
-  position: fixed;
-  font-size: 20px;
-  animation: fall 6s linear infinite;
+.letter-box{
+background:#fef5e7;
+padding:40px;
+border:3px solid gold;
+font-size:24px;
+color:#5d4037;
+text-align:center;
+max-width:600px;
 }
 
-@keyframes fall {
-  0% { transform: translateY(-10vh) rotate(0deg); }
-  100% { transform: translateY(110vh) rotate(360deg); }
+.petal{
+position:fixed;
+font-size:20px;
+animation:fall linear infinite;
 }
 
-/* Slideshow */
-.slideshow {
-  position: absolute;
-  inset: 0;
-}
-
-.slide {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 2s;
-}
-
-.slide.active { opacity: 1; }
-
-/* Letter */
-.letter {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.letter-content {
-  background: #fef5e7;
-  padding: 40px;
-  font-family: cursive;
-  font-size: 24px;
-  color: #5d4037;
-  border: 3px solid gold;
+@keyframes fall{
+0%{transform:translateY(-10vh);}
+100%{transform:translateY(110vh);}
 }
 </style>
 </head>
+
 <body>
 
-<div id="passwordScreen" class="center-screen">
-  <div class="password-box">
-    <h2>Enter The Secret Word ❤️</h2>
-    <input type="password" id="passwordInput">
-    <br>
-    <button onclick="checkPassword()">Unlock</button>
-    <p id="error" style="color:red;"></p>
-  </div>
+<div id="login" class="center">
+<div class="box">
+<h2>Enter The Secret Word ❤️</h2>
+<input type="password" id="pass">
+<br>
+<button onclick="unlock()">Unlock</button>
+<p id="error" style="color:red;"></p>
 </div>
-
-<div id="intro" class="center-screen" style="display:none;">
-  <div id="introText">
-    A Love Story... <br>
-    Written In Destiny ❤️
-  </div>
 </div>
 
 <div id="main" style="display:none;">
-  <div class="slideshow">
-    <img src="ONE.jpeg" class="slide active">
-    <img src="TWO.jpg" class="slide">
-    <img src="THREE.jpeg" class="slide">
-    <img src="FOUR.jpeg" class="slide">
-    <img src="FIVE.jpeg" class="slide">
-  </div>
+
+<div class="slideshow">
+<img src="ONE.jpeg" class="slide active">
+<img src="TWO.jpeg" class="slide">
+<img src="THREE.jpeg" class="slide">
+<img src="FOUR.jpeg" class="slide">
+<img src="five.jpeg" class="slide">
+</div>
+
 </div>
 
 <div id="letter" class="letter">
-  <div class="letter-content" id="letterText"></div>
+<div class="letter-box" id="letterText"></div>
 </div>
 
 <audio id="music" loop>
-  <source src="romantic-song.mp3" type="audio/mpeg">
+<source src="romantic-song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// SHA256 HASHED PASSWORD ("TA2302")
-const HASHED_PASSWORD = "0eab3b71fcb3d34df66e4a79e927651c01fb9b31c7648206dfa81857232ece48";
+const PASSWORD="TA2302";
 
-async function hash(text) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(hashBuffer))
-    .map(b => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-async function checkPassword() {
-  const input = document.getElementById("passwordInput").value;
-  const hashedInput = await hash(input);
-
-  if (hashedInput === HASHED_PASSWORD) {
-    document.getElementById("passwordScreen").style.display = "none";
-    startIntro();
-  } else {
-    document.getElementById("error").innerText = "Wrong password ❤️";
-  }
-}
-
-function startIntro() {
-  document.getElementById("intro").style.display = "flex";
-  document.getElementById("music").play();
-
-  createSparks();
-
-  setTimeout(() => {
-    document.getElementById("intro").style.display = "none";
-    document.getElementById("main").style.display = "block";
-    startSlideshow();
-  }, 6000);
-}
-
-function createSparks() {
-  for (let i = 0; i < 100; i++) {
-    const spark = document.createElement("div");
-    spark.className = "spark";
-    spark.style.left = Math.random() * 100 + "%";
-    spark.style.animationDuration = (Math.random()*3+3)+"s";
-    document.body.appendChild(spark);
-  }
-}
-
-function createPetals() {
-  for (let i = 0; i < 20; i++) {
-    const petal = document.createElement("div");
-    petal.className = "petal";
-    petal.innerText = "🌹";
-    petal.style.left = Math.random() * 100 + "%";
-    petal.style.animationDuration = (Math.random()*4+4)+"s";
-    document.body.appendChild(petal);
-  }
-}
-
-const LETTERS = [
-  "You walked into my life and everything became beautiful ❤️",
-  "Every moment with you feels like magic ✨",
-  "With you, love feels easy and forever feels real 💕",
-  "You are my peace, my happiness, my home 🌹",
-  "No matter what life brings, I will always choose you ❤️"
+const LETTERS=[
+"You walked into my life and everything changed ❤️",
+"You are the reason my heart smiles every day ✨",
+"With you, love feels magical 💕",
+"You are my peace, my happiness 🌹",
+"I will always choose you ❤️"
 ];
 
-function startSlideshow() {
-  const slides = document.querySelectorAll(".slide");
-  let current = 0;
+function unlock(){
+const input=document.getElementById("pass").value;
 
-  setInterval(() => {
-    slides[current].classList.remove("active");
-    openLetter(current);
-    current = (current + 1) % slides.length;
-    slides[current].classList.add("active");
-  }, 6000);
+if(input===PASSWORD){
+document.getElementById("login").style.display="none";
+document.getElementById("main").style.display="block";
+startMusic();
+startSlideshow();
+}else{
+document.getElementById("error").innerText="Wrong password ❤️";
+}
 }
 
-function openLetter(index) {
-  const letter = document.getElementById("letter");
-  const text = document.getElementById("letterText");
+function startMusic(){
+const music=document.getElementById("music");
+music.volume=0;
+music.play().then(()=>{
+let v=0;
+let fade=setInterval(()=>{
+if(v<0.6){
+v+=0.02;
+music.volume=v;
+}else{
+clearInterval(fade);
+}
+},200);
+}).catch(()=>{});
+}
 
-  letter.style.display = "flex";
-  text.innerText = LETTERS[index];
+function startSlideshow(){
+const slides=document.querySelectorAll(".slide");
+let index=0;
 
-  createPetals();
+setInterval(()=>{
+slides[index].classList.remove("active");
+showLetter(index);
 
-  setTimeout(() => {
-    letter.style.display = "none";
-  }, 4000);
+index=(index+1)%slides.length;
+slides[index].classList.add("active");
+
+},6000);
+}
+
+function showLetter(i){
+const letter=document.getElementById("letter");
+const text=document.getElementById("letterText");
+
+letter.style.display="flex";
+text.innerText=LETTERS[i];
+
+createPetals();
+
+setTimeout(()=>{
+letter.style.display="none";
+},3500);
+}
+
+function createPetals(){
+for(let i=0;i<15;i++){
+const p=document.createElement("div");
+p.className="petal";
+p.innerText="🌹";
+p.style.left=Math.random()*100+"%";
+p.style.animationDuration=(Math.random()*4+4)+"s";
+document.body.appendChild(p);
+
+setTimeout(()=>{p.remove();},8000);
+}
 }
 </script>
 
