@@ -7,7 +7,7 @@
 <style>
 body{
   margin:0;
-  background:black;
+  background:linear-gradient(135deg, #ff9ecb, #ff4f8b, #d1005d);
   font-family:Georgia, serif;
   overflow:hidden;
   color:white;
@@ -20,18 +20,19 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:black;
+  background:linear-gradient(135deg, #ff9ecb, #ff4f8b, #d1005d);
   z-index:1000;
 }
 
 .login-box{
-  background:rgba(0,0,0,0.95);
+  background:rgba(0,0,0,0.75);
   padding:30px;
   border:2px solid gold;
   box-shadow:0 0 30px gold;
   text-align:center;
   width:85%;
   max-width:350px;
+  border-radius:12px;
 }
 
 input{
@@ -85,10 +86,10 @@ button{
   text-shadow:0 0 15px gold;
 }
 
-/* PETALS (SIZE FIXED HERE ONLY) */
+/* PETALS */
 .petal{
   position:fixed;
-  width:125px; /* 5X bigger than 25px */
+  width:125px;
   pointer-events:none;
   animation:fall linear forwards;
 }
